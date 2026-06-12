@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>โปรแกรมสร้างและจัดการเช็กลิสต์ส่วนตัว</title>
+    <title>My Privacy Checklist </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -46,6 +46,20 @@
             font-size: 14px;
             opacity: 0.9;
         }
+        
+        /* สไตล์ของนาฬิกาที่เพิ่มเข้ามา */
+        .live-clock {
+            font-size: 26px;
+            font-weight: 700;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.15); /* กล่องกระจกโปร่งแสง */
+            display: inline-block;
+            padding: 4px 20px;
+            border-radius: 30px;
+            letter-spacing: 1px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
         .content-padding {
             padding: 0 30px;
         }
@@ -243,17 +257,18 @@
 
     <div class="container">
         <div class="header-banner">
-            <h1>โปรแกรมจัดการเช็กลิสต์ส่วนตัว</h1>
-            <p>สร้างกลุ่มหัวข้อ บันทึกรายการสิ่งของ ติ๊กเลือก และแนบรูปภาพได้ตามใจชอบ</p>
+            <h1>My Privacy Checklist</h1>
+            <p>Create : Topic , Check , Add Picture </p>
+            <div id="liveClock" class="live-clock">00:00:00</div>
         </div>
 
         <div class="content-padding">
             
             <div class="creator-box">
-                <div class="creator-title">📁 สร้างหัวข้อ / กลุ่มเช็กลิสต์ใหม่</div>
+                <div class="creator-title">📁 Create Topic / Category </div>
                 <div class="flex-form">
                     <input type="text" id="newCategoryTitle" class="input-text" placeholder="พิมพ์ชื่อหัวข้อที่ต้องการสร้าง...">
-                    <button onclick="createCategory()" class="btn btn-primary">สร้างหัวข้อ</button>
+                    <button onclick="createCategory()" class="btn btn-primary">Create</button>
                 </div>
             </div>
 
@@ -432,7 +447,19 @@
             });
         }
 
+        // ฟังก์ชันระบบนาฬิกา Real-time ที่เพิ่มเข้ามาใหม่
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('liveClock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // สั่งให้โปรแกรมวาดหน้าจอเช็กลิสต์และเริ่มรันนาฬิกาทำทันที
         renderChecklist();
+        updateClock();
+        setInterval(updateClock, 1000); // อัปเดตเวลาทุกๆ 1 วินาที
     </script>
 </body>
 </html>
