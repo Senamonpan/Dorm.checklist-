@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dormitory Packing Checklist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Sarabun', sans-serif;
+        }
+        body {
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 0;
+            color: #334155;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding-bottom: 40px;
+        }
+        .header-banner {
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            text-align: center;
+        }
+        .header-banner h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .header-banner p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .content-padding {
+            padding: 0 30px;
+        }
+        .section-title {
+            font-size: 16px;
+            color: #1e3a8a;
+            border-left: 4px solid #2563eb;
+            padding-left: 12px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 25px;
+        }
+        
+        /* สไตล์ของแถวและ Checkbox แบบอินเตอร์แอคทีฟ */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 10px;
+            border-bottom: 1px solid #f1f5f9;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+        .checklist-item:hover {
+            background-color: #f8fafc;
+        }
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 4px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #2563eb; /* เปลี่ยนสีปุ่มติ๊กถูกเป็นสีน้ำเงิน */
+        }
+        .item-text-container {
+            flex: 1;
+        }
+        .item-text {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 15px;
+            display: block;
+            transition: all 0.2s ease;
+        }
+        .item-desc {
+            display: block;
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 2px;
+            transition: all 0.2s ease;
+        }
+        
+        /* เมื่อติ๊กถูกแล้วให้ตัวหนังสือจางลงและขีดฆ่า */
+        .checklist-item input[type="checkbox"]:checked ~ .item-text-container .item-text {
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+        .checklist-item input[type="checkbox"]:checked ~ .item-text-container .item-desc {
+            color: #cbd5e1;
+        }
+
+        /* สไตล์ตารางเปรียบเทียบ */
+        .grid-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .grid-table th {
+            background-color: #e2e8f0;
+            color: #1e3a8a;
+            text-align: left;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .grid-table td {
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            background-color: #ffffff;
+            font-size: 13.5px;
+            vertical-align: top;
+            width: 50%;
+        }
+        .grid-table ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+        .grid-table li {
+            margin-bottom: 8px;
+        }
+        .grid-table li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* กล่องข้อควรระวัง */
+        .warning-box {
+            background: #fff7ed;
+            border: 1px solid #ffedd5;
+            border-left: 4px solid #ea580c;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 35px;
+        }
+        .warning-title {
+            color: #ea580c;
+            font-weight: 700;
+            margin-bottom: 6px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .warning-desc {
+            font-size: 13.5px;
+            color: #7c2d12;
+            margin: 0;
+            text-align: justify;
+        }
+
+        /* ปรับแต่งสำหรับการแสดงผลบนมือถือ */
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            .content-padding {
+                padding: 0 15px;
+            }
+            .grid-table th, .grid-table td {
+                display: block;
+                width: 100%;
+            }
+            .grid-table th:last-child {
+                border-top: 1px solid #cbd5e1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header-banner">
+            <h1>เช็กลิสต์เตรียมของย้ายเข้าหอพักในมหาวิทยาลัย</h1>
+            <p>คู่มือตรวจสอบสิ่งของจำเป็นสำหรับการเริ่มต้นชีวิตในรั้วมหาวิทยาลัยอย่างมั่นใจ</p>
+        </div>
+
+        <div class="content-padding">
+            <div class="section-title">1. หมวดเครื่องนอน (Bedding & Sleep)</div>
+            <div class="card">
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">ผ้าปูที่นอนและปลอกหมอน</span>
+                        <span class="item-desc">แนะนำให้ตรวจสอบขนาดเตียงของหอพักล่วงหน้า (โดยทั่วไปหอในจะเป็นเตียงเดี่ยวขนาด 3 หรือ 3.5 ฟุต)</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">หมอนหนุน และ หมอนข้าง</span>
+                        <span class="item-desc">เลือกแบบที่นอนสบายเพื่อการพักผ่อนที่เต็มอิ่มหลังจากเรียนเหนื่อยๆ</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">ผ้าห่ม หรือ ผ้าห่มนวม</span>
+                        <span class="item-desc">เลือกความหนาให้เหมาะกับห้องพัก (ห้องแอร์หรือห้องพัดลม)</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="section-title">2. หมวดห้องน้ำและของใช้ส่วนตัว (Bathroom & Personal Care)</div>
+            <div class="card">
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">ตะกร้าใส่ของอาบน้ำแบบมีรูระบายน้ำ</span>
+                        <span class="item-desc">จำเป็นมากสำหรับหอใน (โดยเฉพาะแบบห้องน้ำรวม) ช่วยให้หิ้วของใช้ไปอาบน้ำได้สะดวกและไม่อับชื้น</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">อุปกรณ์อาบน้ำพื้นฐาน</span>
+                        <span class="item-desc">สบู่/ครีมอาบน้ำ, แชมพู, ครีมนวดผม, โฟมล้างหน้า, แปรงสีฟัน, ยาสีฟัน และน้ำยาบ้วนปาก</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">ผ้าเช็ดตัว และ ผ้าเช็ดผม</span>
+                        <span class="item-desc">ควรเตรียมไปอย่างน้อยอย่างละ 2 ผืน เพื่อไว้สลับสับเปลี่ยนในวันซักผ้า</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">รองเท้าแตะสำหรับใส่เข้าห้องน้ำ</span>
+                        <span class="item-desc">ช่วยป้องกันการลื่น และรักษาความสะอาดสุขอนามัยส่วนบุคคล</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="section-title">3. หมวดเสื้อผ้าและการซักรีด (Clothing & Laundry)</div>
+            <div class="card">
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">ชุดนิสิต / ชุดนักศึกษา</span>
+                        <span class="item-desc">เสื้อ, กางเกง/กระโปรง, เข็มขัด, เนคไท, รวมถึงเข็มและกระดุมของมหาวิทยาลัย (เตรียมไว้ประมาณ 3-4 ชุด)</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">เสื้อผ้าใส่เล่น และ ชุดนอน</span>
+                        <span class="item-desc">เอาไปแต่พอดี เนื่องจากพื้นที่ตู้เสื้อผ้าในหอพักในมักมีขนาดจำกัด</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">รองเท้าประเภทต่างๆ</span>
+                        <span class="item-desc">รองเท้าคัทชูหรือผ้าใบสีสุภาพสำหรับเรียน, รองเท้าลำลองใส่เที่ยว, และรองเท้าผ้าใบสำหรับออกกำลังกาย</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">อุปกรณ์ซักผ้า</span>
+                        <span class="item-desc">ตะกร้าใส่ผ้าใช้แล้ว, ไม้แขวนเสื้อ, ไม้หนีบผ้า, ผงซักฟอก และน้ำยาปรับผ้านุ่ม</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="section-title">4. หมวดไอทีและการเรียน (IT & Academic)</div>
+            <div class="card">
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">คอมพิวเตอร์โน้ตบุ๊ก / แท็บเล็ต</span>
+                        <span class="item-desc">พร้อมสายชาร์จและอุปกรณ์เสริม อุปกรณ์หลักสำหรับการเรียน ทำโปรเจกต์ และส่งงาน</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">ปลั๊กสามตา / ปลั๊กพ่วง (สายยาว 3-5 เมตร)</span>
+                        <span class="item-desc">⚠️ สำคัญมาก เนื่องจากปลั๊กไฟถาวรในหอในมักมีจำกัดและอาจอยู่ไกลจากโต๊ะเขียนหนังสือ</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">โคมไฟตั้งโต๊ะ</span>
+                        <span class="item-desc">ใช้สำหรับอ่านหนังสือหรือทำงานในเวลากลางคืน เพื่อไม่ให้แสงสว่างรบกวนรูมเมทเวลาหลับ</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">เครื่องเขียนพื้นฐาน</span>
+                        <span class="item-desc">ปากกา, ลิควิด, สมุดจดบันทึก หรืออุปกรณ์บันทึกข้อมูลหลักทั่วไป</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="section-title">5. หมวดทั่วไปและยาสามัญ (General & First Aid)</div>
+            <div class="card">
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">ยาสามัญประจำบ้าน และ ยาประจำตัว</span>
+                        <span class="item-desc">ยาพาราเซตามอล, ยาแก้แพ้, ยาแก้ท้องเสีย, ยาลดกรด, พลาสเตอร์ยา และยาทาแผลสด</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">ชุดจาน ช้อน ส้อม และแก้วน้ำ</span>
+                        <span class="item-desc">สำหรับใช้เวลาซื้อของกินหรืออาหารสำเร็จรูปเข้ามาทานในห้อง</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">น้ำยาล้างจาน และ ฟองน้ำ</span>
+                        <span class="item-desc">ใช้ดูแลรักษาความสะอาดภาชนะหลังรับประทานอาหารทันทีเพื่อป้องกันมดและแมลง</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">กระดาษทิชชู่</span>
+                        <span class="item-desc">เตรียมไว้ทั้งแบบแห้งและแบบเปียก สำหรับทำความสะอาดทั่วไป</span>
+                    </div>
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox">
+                    <div class="item-text-container">
+                        <span class="item-text">กรรไกร / คัตเตอร์ / กรรไกรตัดเล็บ</span>
+                        <span class="item-desc">อุปกรณ์ชิ้นเล็กๆ ที่มักจะได้ใช้ในสถานการณ์ฉุกเฉินหรือเปิดกล่องพัสดุ</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="section-title">💡 คำแนะนำ: สิ่งที่ควรนำไปวันแรก VS ซื้อทีหลัง</div>
+            <table class="grid-table">
+                <thead>
+                    <tr>
+                        <th>ต้องนำไปตั้งแต่วันแรก (Day 1)</th>
+                        <th>ค่อยหาซื้อเพิ่มแถวมหาวิทยาลัยได้</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>ชุดเครื่องนอน (ผ้าปู, หมอน, ผ้าห่ม)</li>
+                                <li>อุปกรณ์อาบน้ำชุดแรก + ผ้าเช็ดตัว</li>
+                                <li>ชุดนักศึกษา (สำหรับวันปฐมนิเทศ/เปิดเรียน)</li>
+                                <li>โน้ตบุ๊ก, โทรศัพท์ + สายชาร์จ</li>
+                                <li>ปลั๊กพ่วง / ปลั๊กสามตา</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>ผงซักฟอก, น้ำยาปรับผ้านุ่ม, น้ำยาล้างจาน</li>
+                                <li>ขนมตุนเสบียง, แพ็คน้ำดื่ม</li>
+                                <li>อุปกรณ์ทำความสะอาดห้อง (ไม้กวาด, ถังขยะ)</li>
+                                <li>ยาสามัญประจำบ้านทั่วไป (ยกเว้นยาประจำตัว)</li>
+                                <li>ของตกแต่งห้องหรือชั้นวางของขนาดเล็ก</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <div class="warning-title">⚠️ ข้อควรระวังสำคัญสำหรับหอพักใน</div>
+                <p class="warning-desc">
+                    หอพักในมหาวิทยาลัยส่วนใหญ่มี <strong>"กฎระเบียบเรื่องเครื่องใช้ไฟฟ้าที่ให้กำลังวัตต์สูง"</strong> เพื่อความปลอดภัยและป้องกันไฟกระชาก เช่น ห้ามนำไมโครเวฟ, ตู้เย็น, กระทะไฟฟ้า, เตารีด หรือกาต้มน้ำร้อนขึ้นไปใช้บนห้องพัก (บางหอพักจะมีพื้นที่ส่วนกลางจัดเตรียมไว้ให้) แนะนำให้นิสิต/นักศึกษาตรวจสอบประกาศระเบียบของทางหอพักตนเองอย่างละเอียดก่อนทำการเคลื่อนย้ายของครับ
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
