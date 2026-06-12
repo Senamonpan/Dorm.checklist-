@@ -107,7 +107,6 @@
             margin-top: 2px;
         }
         
-        /* สไตล์เมื่อติ๊กถูก */
         .checklist-item input[type="checkbox"]:checked ~ .item-text-container .item-text {
             color: #94a3b8;
             text-decoration: line-through;
@@ -116,7 +115,6 @@
             color: #cbd5e1;
         }
 
-        /* ปุ่มลบสำหรับไอเทมที่เพิ่มเอง */
         .btn-delete {
             background: #ef4444;
             color: white;
@@ -126,13 +124,11 @@
             font-size: 12px;
             cursor: pointer;
             font-weight: 600;
-            transition: background 0.2s;
         }
         .btn-delete:hover {
             background: #dc2626;
         }
 
-        /* ฟอร์มเพิ่มของ */
         .add-form {
             display: flex;
             gap: 10px;
@@ -200,7 +196,6 @@
         </div>
 
         <div class="content-padding">
-            <!-- 1. หมวดเครื่องนอน -->
             <div class="section-title">1. หมวดเครื่องนอน (Bedding & Sleep)</div>
             <div class="card">
                 <label class="checklist-item">
@@ -232,7 +227,6 @@
                 </label>
             </div>
 
-            <!-- 2. หมวดห้องน้ำ -->
             <div class="section-title">2. หมวดห้องน้ำและของใช้ส่วนตัว (Bathroom)</div>
             <div class="card">
                 <label class="checklist-item">
@@ -264,7 +258,6 @@
                 </label>
             </div>
 
-            <!-- 3. หมวดไอทีและการเรียน -->
             <div class="section-title">3. หมวดไอทีและการเรียน (IT & Academic)</div>
             <div class="card">
                 <label class="checklist-item">
@@ -296,20 +289,15 @@
                 </label>
             </div>
 
-            <!-- 4. หมวดของใช้เพิ่มเติม (ระบบโปรแกรมจัดการ) -->
-            <div class="section-title">➕ ของใช้ส่วนตัวเพิ่มเติม (กำหนดเองได้)</div>
+            <div class="section-title">4. หมวดของใช้เพิ่มเติม (ระบบโปรแกรมจัดการ)</div>
             <div class="card">
-                <!-- ส่วนแสดงรายการที่ผู้ใช้เพิ่มเข้ามาเอง -->
                 <div id="customChecklistContainer"></div>
-                
-                <!-- ฟอร์มสำหรับกรอกเพิ่มข้อมูล -->
                 <div class="add-form">
-                    <input type="text" id="inputItem" class="input-custom" placeholder="พิมพ์ของที่ต้องการจัดเพิ่ม เช่น ยาประจำตัว, ขนม...">
+                    <input type="text" id="inputItem" class="input-custom" placeholder="พิมพ์ของที่ต้องการจัดเพิ่ม...">
                     <button onclick="addCustomItem()" class="btn-add">เพิ่มรายการ</button>
                 </div>
             </div>
 
-            <!-- ตารางสรุปการจัดการ -->
             <div class="section-title">💡 ทริคแนะนำการจัดของ</div>
             <table class="grid-table">
                 <thead>
@@ -328,37 +316,26 @@
         </div>
     </div>
 
-    <!-- ส่วนของโค้ดโปรแกรม (JavaScript) -->
     <script>
-        // === 1. ระบบบันทึกสถานะ Checkbox ของรายการหลัก ===
         const defaultCheckboxes = document.querySelectorAll('.default-sync');
-        
         defaultCheckboxes.forEach((checkbox, index) => {
             const storageKey = `default_item_${index}`;
-            
-            // โหลดสถานะเดิมที่เคยติ๊กไว้จากหน่วยความจำมือถือ/iPad
             if (localStorage.getItem(storageKey) === 'true') {
                 checkbox.checked = true;
             }
-            
-            // เมื่อมีการคลิกติ๊กถูก ให้ทำการบันทึกทันที
             checkbox.addEventListener('change', () => {
                 localStorage.setItem(storageKey, checkbox.checked);
             });
         });
 
-        // === 2. ระบบเพิ่ม / ลบ รายการแบบกำหนดเอง (Custom Items) ===
         let customItems = JSON.parse(localStorage.getItem('my_dorm_custom_items')) || [];
 
-        // ฟังก์ชั่นแสดงผลรายการที่เพิ่มเองบนหน้าจอ
         function renderCustomItems() {
             const container = document.getElementById('customChecklistContainer');
-            container.innerHTML = ''; // ล้างหน้าจอเก่าก่อนวาดใหม่
-            
+            container.innerHTML = '';
             customItems.forEach((item, index) => {
                 const label = document.createElement('label');
                 label.className = 'checklist-item';
-                
                 label.innerHTML = `
                     <div class="item-left">
                         <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleCustomItem(${index})">
@@ -373,37 +350,30 @@
             });
         }
 
-        // ฟังก์ชั่นกดปุ่มเพิ่มรายการใหม่
         function addCustomItem() {
             const input = document.getElementById('inputItem');
             const text = input.value.trim();
-            
-            if (text === '') return; // ถ้าไม่กรอกอะไรเลย ไม่ให้เพิ่ม
-            
+            if (text === '') return;
             customItems.push({ text: text, checked: false });
             saveAndRefresh();
-            input.value = ''; // เคลียร์ช่องพิมพ์ซะข้อมูล
+            input.value = '';
         }
 
-        // ฟังก์ชั่นสลับสถานะติ๊กถูกของรายการที่เพิ่มเอง
         function toggleCustomItem(index) {
             customItems[index].checked = !customItems[index].checked;
             saveAndRefresh();
         }
 
-        // ฟังก์ชั่นลบรายการออก
         function deleteCustomItem(index) {
             customItems.splice(index, 1);
             saveAndRefresh();
         }
 
-        // ฟังก์ชั่นเซฟลง LocalStorage และสั่งวาดหน้าจอใหม่
         function saveAndRefresh() {
             localStorage.setItem('my_dorm_custom_items', JSON.stringify(customItems));
             renderCustomItems();
         }
 
-        // สั่งให้ระบบทำงานวาดรายการเริ่มต้นทันทีเมื่อเปิดแอปเว็บ
         renderCustomItems();
     </script>
 </body>
