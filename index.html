@@ -267,7 +267,7 @@
             <div class="creator-box">
                 <div class="creator-title">📁 Create Topic / Category </div>
                 <div class="flex-form">
-                    <input type="text" id="newCategoryTitle" class="input-text" placeholder="พิมพ์ชื่อหัวข้อที่ต้องการสร้าง...">
+                    <input type="text" id="newCategoryTitle" class="input-text" placeholder="Add your text...">
                     <button onclick="createCategory()" class="btn btn-primary">Create</button>
                 </div>
             </div>
@@ -305,7 +305,7 @@
 
         // ฟังก์ชันลบหมวดหมู่
         function deleteCategory(catId) {
-            if(confirm("คุณต้องการลบหัวข้อนี้และรายการสิ่งของข้างในทั้งหมดใช่หรือไม่?")) {
+            if(confirm("จะลบหัวข้อนี้จริง ๆ หรอข้อมูลจะหายหมดเลยนะ 🥺")) {
                 AppData = AppData.filter(cat => cat.id !== catId);
                 saveAndRefresh();
             }
@@ -429,15 +429,15 @@
                 const formHTML = `
                     <div class="item-form-box">
                         <div class="item-form-grid">
-                            <input type="text" id="itemTitle_${category.id}" class="input-text" style="padding:6px; font-size:13px;" placeholder="ชื่อสิ่งของ...">
-                            <input type="text" id="itemDesc_${category.id}" class="input-text" style="padding:6px; font-size:13px;" placeholder="รายละเอียด (ระบุหรือไม่ก็ได้)...">
+                            <input type="text" id="itemTitle_${category.id}" class="input-text" style="padding:6px; font-size:13px;" placeholder="Topic / Object ...">
+                            <input type="text" id="itemDesc_${category.id}" class="input-text" style="padding:6px; font-size:13px;" placeholder=" Elaborate (ระบุหรือไม่ก็ได้)...">
                         </div>
                         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                             <div>
-                                <label class="file-label" for="itemFile_${category.id}">📸 แนบรูปภาพประกอบ:</label>
+                                <label class="file-label" for="itemFile_${category.id}">📸 มีรูปไหม?:</label>
                                 <input type="file" id="itemFile_${category.id}" class="input-file" accept="image/*">
                             </div>
-                            <button onclick="addItemToCategory('${category.id}')" class="btn btn-add-item">+ เพิ่มสิ่งของ</button>
+                            <button onclick="addItemToCategory('${category.id}')" class="btn btn-add-item">+ Add มาสิ</button>
                         </div>
                     </div>
                 `;
