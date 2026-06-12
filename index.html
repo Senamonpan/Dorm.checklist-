@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dormitory Packing Checklist Program</title>
+    <title>โปรแกรมจัดการเช็กลิสต์อเนกประสงค์</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
             font-family: 'Sarabun', sans-serif;
         }
         body {
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
             margin: 0;
             padding: 0;
             color: #334155;
@@ -25,9 +25,9 @@
             margin: 30px auto;
             background: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            padding-bottom: 40px;
+            padding-bottom: 50px;
         }
         .header-banner {
             padding: 40px 20px;
@@ -39,6 +39,7 @@
             margin: 0;
             font-size: 24px;
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
         .header-banner p {
             margin: 10px 0 0 0;
@@ -48,46 +49,71 @@
         .content-padding {
             padding: 0 30px;
         }
+        
+        /* ฟอร์มสร้างหมวดหมู่หลัก (บนสุด) */
+        .creator-box {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+        .creator-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        /* สไตล์ของส่วนหัวหมวดหมู่ (Category Header) ถอดแบบจาก PDF */
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 35px;
+            margin-bottom: 12px;
+        }
         .section-title {
             font-size: 16px;
             color: #1e3a8a;
             border-left: 4px solid #2563eb;
             padding-left: 12px;
-            margin-top: 35px;
-            margin-bottom: 15px;
             font-weight: 700;
+            margin: 0;
         }
+        
+        /* การ์ดใส่รายการเช็กลิสต์ */
         .card {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             padding: 10px 15px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
         
+        /* รายการไอเทมย่อย */
         .checklist-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 12px 10px;
             border-bottom: 1px solid #f1f5f9;
-            cursor: pointer;
         }
         .checklist-item:last-child {
             border-bottom: none;
         }
-        .checklist-item:hover {
-            background-color: #f8fafc;
-        }
         .item-left {
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             flex: 1;
+            cursor: pointer;
         }
         .checklist-item input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            margin-top: 4px;
             margin-right: 15px;
             cursor: pointer;
             accent-color: #2563eb;
@@ -99,6 +125,7 @@
             font-weight: 600;
             color: #1e293b;
             font-size: 15px;
+            display: block;
         }
         .item-desc {
             display: block;
@@ -107,83 +134,109 @@
             margin-top: 2px;
         }
         
-        .checklist-item input[type="checkbox"]:checked ~ .item-text-container .item-text {
+        /* รูปภาพแนบประกอบไอเทม */
+        .item-img {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-left: 15px;
+            border: 1px solid #cbd5e1;
+            background-color: #f1f5f9;
+        }
+        
+        /* สไตล์เมื่อติ๊กถูกเลือกแล้ว */
+        .checklist-item.checked .item-text {
             color: #94a3b8;
             text-decoration: line-through;
         }
-        .checklist-item input[type="checkbox"]:checked ~ .item-text-container .item-desc {
+        .checklist-item.checked .item-desc {
             color: #cbd5e1;
         }
+        .checklist-item.checked .item-img {
+            opacity: 0.5;
+        }
 
-        .btn-delete {
-            background: #ef4444;
-            color: white;
+        /* ปุ่มต่างๆ */
+        .btn {
             border: none;
-            padding: 5px 10px;
             border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
             font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
         }
-        .btn-delete:hover {
-            background: #dc2626;
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            font-size: 14px;
         }
+        .btn-primary:hover { background: #1d4ed8; }
+        
+        .btn-danger-sm {
+            background: #fee2e2;
+            color: #ef4444;
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+        .btn-danger-sm:hover { background: #fca5a5; color: #b91c1c; }
+        
+        .btn-add-item {
+            background: #1e293b;
+            color: white;
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+        .btn-add-item:hover { background: #0f172a; }
 
-        .add-form {
+        /* ฟอร์มและอินพุต */
+        .flex-form {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
         }
-        .input-custom {
+        .input-text {
             flex: 1;
             padding: 10px;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
             font-size: 14px;
         }
-        .btn-add {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
+        .input-text:focus {
+            outline: none;
+            border-color: #2563eb;
         }
-        .btn-add:hover {
-            background: #1d4ed8;
-        }
-
-        .grid-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-        }
-        .grid-table th {
-            background-color: #e2e8f0;
-            color: #1e3a8a;
+        
+        /* ฟอร์มเพิ่มไอเทมย่อยใต้การ์ด */
+        .item-form-box {
+            background: #f8fafc;
             padding: 12px;
-            font-size: 14px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border: 1px dashed #cbd5e1;
+        }
+        .item-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .file-label {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 4px;
             font-weight: 600;
-            text-align: left;
         }
-        .grid-table td {
-            padding: 15px;
-            border: 1px solid #e2e8f0;
-            font-size: 13.5px;
-            vertical-align: top;
-            width: 50%;
+        .input-file {
+            font-size: 12px;
+            color: #64748b;
         }
-        .grid-table ul { margin: 0; padding-left: 18px; }
-        .grid-table li { margin-bottom: 8px; }
 
+        /* ติ๊กปรับแต่งหน้าจอมือถือ */
         @media (max-width: 768px) {
             .container { margin: 0; border-radius: 0; }
             .content-padding { padding: 0 15px; }
-            .grid-table th, .grid-table td { display: block; width: 100%; }
+            .item-form-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -191,190 +244,204 @@
 
     <div class="container">
         <div class="header-banner">
-            <h1>โปรแกรมเช็กลิสต์ย้ายเข้าหอพักใน</h1>
-            <p>เวอร์ชัน Web App - บันทึกข้อมูลอัตโนมัติ เพิ่มและลบรายการเองได้</p>
+            <h1>โปรแกรมสร้างเช็กลิสต์แยกหมวดหมู่</h1>
+            <p>ออกแบบโครงสร้างกลุ่มคำสั่ง ติ๊กเลือก ลบออก และแนบรูปภาพได้ตามต้องการ</p>
         </div>
 
         <div class="content-padding">
-            <div class="section-title">1. หมวดเครื่องนอน (Bedding & Sleep)</div>
-            <div class="card">
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">ผ้าปูที่นอนและปลอกหมอน</span>
-                            <span class="item-desc">เตียงเดี่ยวขนาด 3 หรือ 3.5 ฟุต</span>
-                        </div>
-                    </div>
-                </label>
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">หมอนหนุน และ หมอนข้าง</span>
-                            <span class="item-desc">เลือกแบบที่หนุนสบาย</span>
-                        </div>
-                    </div>
-                </label>
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">ผ้าห่ม หรือ ผ้าห่มนวม</span>
-                            <span class="item-desc">เลือกความหนาให้เหมาะกับประเภทห้อง</span>
-                        </div>
-                    </div>
-                </label>
-            </div>
-
-            <div class="section-title">2. หมวดห้องน้ำและของใช้ส่วนตัว (Bathroom)</div>
-            <div class="card">
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">ตะกร้าใส่ของอาบน้ำแบบมีรูระบายน้ำ</span>
-                            <span class="item-desc">สะดวกสำหรับหิ้วไปใช้ห้องน้ำรวม</span>
-                        </div>
-                    </div>
-                </label>
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">อุปกรณ์อาบน้ำพื้นฐาน</span>
-                            <span class="item-desc">สบู่, แชมพู, ครีมนวด, โฟมล้างหน้า, แปรงและยาสีฟัน</span>
-                        </div>
-                    </div>
-                </label>
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">ผ้าเช็ดตัว และ ผ้าเช็ดผม</span>
-                            <span class="item-desc">ควรมีสำรองอย่างน้อย 2 ผืน</span>
-                        </div>
-                    </div>
-                </label>
-            </div>
-
-            <div class="section-title">3. หมวดไอทีและการเรียน (IT & Academic)</div>
-            <div class="card">
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">คอมพิวเตอร์โน้ตบุ๊ก / แท็บเล็ต</span>
-                            <span class="item-desc">พร้อมสายชาร์จและอุปกรณ์เสริม</span>
-                        </div>
-                    </div>
-                </label>
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">ปลั๊กสามตา / ปลั๊กพ่วง (สายยาว 3-5 เมตร)</span>
-                            <span class="item-desc">⚠️ สำคัญมาก เพราะปลั๊กถาวรในหอมักมีจำกัด</span>
-                        </div>
-                    </div>
-                </label>
-                <label class="checklist-item">
-                    <div class="item-left">
-                        <input type="checkbox" class="default-sync">
-                        <div class="item-text-container">
-                            <span class="item-text">โคมไฟตั้งโต๊ะ</span>
-                            <span class="item-desc">ใช้เปิดอ่านหนังสือตอนกลางคืนเพื่อไม่กวนรูมเมท</span>
-                        </div>
-                    </div>
-                </label>
-            </div>
-
-            <div class="section-title">4. หมวดของใช้เพิ่มเติม (ระบบโปรแกรมจัดการ)</div>
-            <div class="card">
-                <div id="customChecklistContainer"></div>
-                <div class="add-form">
-                    <input type="text" id="inputItem" class="input-custom" placeholder="พิมพ์ของที่ต้องการจัดเพิ่ม...">
-                    <button onclick="addCustomItem()" class="btn-add">เพิ่มรายการ</button>
+            
+            <div class="creator-box">
+                <div class="creator-title">📁 สร้างหัวข้อ / หมวดหมู่กลุ่มใหม่</div>
+                <div class="flex-form">
+                    <input type="text" id="newCategoryTitle" class="input-text" placeholder="พิมพ์ชื่อหมวดหมู่ เช่น หมวดเครื่องนุ่งห่ม, เอกสารสำคัญ...">
+                    <button onclick="createCategory()" class="btn btn-primary">สร้างหัวข้อ</button>
                 </div>
             </div>
 
-            <div class="section-title">💡 ทริคแนะนำการจัดของ</div>
-            <table class="grid-table">
-                <thead>
-                    <tr>
-                        <th>ต้องเอาไปวันแรก (Day 1)</th>
-                        <th>ค่อยไปซื้อแถวมหาลัยได้</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>• ชุดเครื่องนอน<br>• อุปกรณ์อาบน้ำชุดแรก<br>• โน้ตบุ๊ก + ปลั๊กพ่วง</td>
-                        <td>• ผงซักฟอก, น้ำยาล้างจาน<br>• แพ็คน้ำดื่ม, ทิชชู่ตุน<br>• อุปกรณ์กวาดห้อง</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div id="dynamicCategoriesContainer"></div>
+
         </div>
     </div>
 
     <script>
-        const defaultCheckboxes = document.querySelectorAll('.default-sync');
-        defaultCheckboxes.forEach((checkbox, index) => {
-            const storageKey = `default_item_${index}`;
-            if (localStorage.getItem(storageKey) === 'true') {
-                checkbox.checked = true;
-            }
-            checkbox.addEventListener('change', () => {
-                localStorage.setItem(storageKey, checkbox.checked);
-            });
-        });
+        // โครงสร้างฐานข้อมูลหลักใน LocalStorage
+        let AppData = JSON.parse(localStorage.getItem('custom_checklist_app_data')) || [];
 
-        let customItems = JSON.parse(localStorage.getItem('my_dorm_custom_items')) || [];
-
-        function renderCustomItems() {
-            const container = document.getElementById('customChecklistContainer');
-            container.innerHTML = '';
-            customItems.forEach((item, index) => {
-                const label = document.createElement('label');
-                label.className = 'checklist-item';
-                label.innerHTML = `
-                    <div class="item-left">
-                        <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleCustomItem(${index})">
-                        <div class="item-text-container">
-                            <span class="item-text">${item.text}</span>
-                            <span class="item-desc">รายการเพิ่มเติมที่คุณบันทึกเอง</span>
-                        </div>
-                    </div>
-                    <button onclick="deleteCustomItem(${index})" class="btn-delete">ลบ</button>
-                `;
-                container.appendChild(label);
-            });
+        // ฟังก์ชันบันทึกและวาดหน้าจอใหม่
+        function saveAndRefresh() {
+            localStorage.setItem('custom_checklist_app_data', JSON.stringify(AppData));
+            renderChecklist();
         }
 
-        function addCustomItem() {
-            const input = document.getElementById('inputItem');
-            const text = input.value.trim();
-            if (text === '') return;
-            customItems.push({ text: text, checked: false });
+        // ฟังก์ชันสร้างหมวดหมู่ใหม่
+        function createCategory() {
+            const input = document.getElementById('newCategoryTitle');
+            const title = input.value.trim();
+            if (title === '') return;
+
+            AppData.push({
+                id: 'cat_' + Date.now(),
+                title: title,
+                items: []
+            });
+
             saveAndRefresh();
             input.value = '';
         }
 
-        function toggleCustomItem(index) {
-            customItems[index].checked = !customItems[index].checked;
+        // ฟังก์ชันลบหมวดหมู่ทิ้งทั้งหมด
+        function deleteCategory(catId) {
+            if(confirm("คุณต้องการลบหมวดหมู่นี้และรายการสิ่งของข้างในทั้งหมดใช่หรือไม่?")) {
+                AppData = AppData.filter(cat => cat.id !== catId);
+                saveAndRefresh();
+            }
+        }
+
+        // ฟังก์ชันเพิ่มไอเทมเช็กลิสต์ย่อยเข้าไปในหมวดหมู่ที่เลือก
+        function addItemToCategory(catId) {
+            const titleInput = document.getElementById(`itemTitle_${catId}`);
+            const descInput = document.getElementById(`itemDesc_${catId}`);
+            const fileInput = document.getElementById(`itemFile_${catId}`);
+
+            const title = titleInput.value.trim();
+            const desc = descInput.value.trim();
+
+            if (title === '') return;
+
+            const targetCategory = AppData.find(cat => cat.id === catId);
+            
+            const newItem = {
+                id: 'item_' + Date.now(),
+                title: title,
+                desc: desc || 'ไม่มีรายละเอียดเพิ่มเติม',
+                checked: false,
+                image: null
+            };
+
+            // ตรวจสอบว่ามีการแนบไฟล์รูปภาพมาด้วยหรือไม่
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                // ระบบบีบอัดรูปภาพอัตโนมัติก่อนบันทึก ป้องกันความจำเบราว์เซอร์เต็ม
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 200; // บีบความกว้างให้เหลือขนาดกะทัดรัดเป็นพรีวิว
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // แปลงเป็น base64 คุณภาพ 70%
+                        newItem.image = canvas.toDataURL('image/jpeg', 0.7);
+                        
+                        targetCategory.items.push(newItem);
+                        saveAndRefresh();
+                    }
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // หากไม่มีการแนบรูปภาพ ให้เพิ่มข้อมูลเข้าไปได้ทันที
+                targetCategory.items.push(newItem);
+                saveAndRefresh();
+            }
+        }
+
+        // ฟังก์ชันสลับสถานะติ๊กถูก (Check / Uncheck)
+        function toggleItemCheck(catId, itemId) {
+            const category = AppData.find(cat => cat.id === catId);
+            const item = category.items.find(i => i.id === itemId);
+            item.checked = !item.checked;
             saveAndRefresh();
         }
 
-        function deleteCustomItem(index) {
-            customItems.splice(index, 1);
+        // ฟังก์ชันลบไอเทมย่อย
+        function deleteItem(catId, itemId) {
+            const category = AppData.find(cat => cat.id === catId);
+            category.items = category.items.filter(i => i.id !== itemId);
             saveAndRefresh();
         }
 
-        function saveAndRefresh() {
-            localStorage.setItem('my_dorm_custom_items', JSON.stringify(customItems));
-            renderCustomItems();
+        // ฟังก์ชันวาดโครงสร้าง UI ถอดแบบความสวยงามจากเวอร์ชัน PDF
+        function renderChecklist() {
+            const container = document.getElementById('dynamicCategoriesContainer');
+            container.innerHTML = ''; // เคลียร์หน้าจอเก่า
+
+            if(AppData.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:#94a3b8; margin-top:40px; font-size:14px;">ยังไม่มีข้อมูลหมวดหมู่ กดสร้างหัวข้อใหม่ที่ด้านบนได้เลยครับ</p>`;
+                return;
+            }
+
+            AppData.forEach(category => {
+                // ส่วนหัวหมวดหมู่ (ดึงดีไซน์เส้นขอบข้างสีน้ำเงินมาจาก PDF)
+                const catHeaderDiv = document.createElement('div');
+                catHeaderDiv.className = 'category-header';
+                catHeaderDiv.innerHTML = `
+                    <h2 class="section-title">${category.title}</h2>
+                    <button onclick="deleteCategory('${category.id}')" class="btn btn-danger-sm">ลบหัวข้อนี้</button>
+                `;
+                container.appendChild(catHeaderDiv);
+
+                // การ์ดรวมไอเทม
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+
+                // รายการเช็กลิสต์ภายในหมวดหมู่
+                let itemsHTML = '';
+                if(category.items.length === 0) {
+                    itemsHTML = `<p style="color:#94a3b8; font-size:13px; padding:10px; text-align:center; margin:0;">ยังไม่มีรายการสิ่งของในกลุ่มนี้</p>`;
+                } else {
+                    category.items.forEach(item => {
+                        itemsHTML += `
+                            <div class="checklist-item ${item.checked ? 'checked' : ''}">
+                                <div class="item-left" onclick="toggleItemCheck('${category.id}', '${item.id}')">
+                                    <input type="checkbox" ${item.checked ? 'checked' : ''}>
+                                    <div class="item-text-container">
+                                        <span class="item-text">${item.title}</span>
+                                        <span class="item-desc">${item.desc}</span>
+                                    </div>
+                                </div>
+                                ${item.image ? `<img src="${item.image}" class="item-img" alt="preview">` : ''}
+                                <button onclick="deleteItem('${category.id}', '${item.id}')" class="btn btn-danger-sm" style="margin-left:15px; padding: 2px 6px;">✕</button>
+                            </div>
+                        `;
+                    });
+                }
+                
+                // ฟอร์มสำหรับกดเพิ่มของย่อยใต้การ์ดแต่ละใบ
+                const formHTML = `
+                    <div class="item-form-box">
+                        <div class="item-form-grid">
+                            <input type="text" id="itemTitle_${category.id}" class="input-text" style="padding:6px; font-size:13px;" placeholder="ชื่อสิ่งของ เช่น แปรงสีฟัน">
+                            <input type="text" id="itemDesc_${category.id}" class="input-text" style="padding:6px; font-size:13px;" placeholder="รายละเอียด เช่น สีน้ำเงิน">
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                            <div>
+                                <label class="file-label" for="itemFile_${category.id}">📸 แนบรูปภาพพรีวิว (ถ้ามี):</label>
+                                <input type="file" id="itemFile_${category.id}" class="input-file" accept="image/*">
+                            </div>
+                            <button onclick="addItemToCategory('${category.id}')" class="btn btn-add-item">+ เพิ่มสิ่งของ</button>
+                        </div>
+                    </div>
+                `;
+
+                cardDiv.innerHTML = itemsHTML + formHTML;
+                container.appendChild(cardDiv);
+            });
         }
 
-        renderCustomItems();
+        // รันคำสั่งแสดงผลครั้งแรกทันทีเมื่อเปิดหน้าโปรแกรม
+        renderChecklist();
     </script>
 </body>
 </html>
